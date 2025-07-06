@@ -1,14 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import AuthForm from '@/components/AuthForm';
+import StoreLanding from '@/components/StoreLanding';
+
+interface User {
+  email: string;
+  consented?: boolean;
+}
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [user, setUser] = useState<User | null>(null);
+
+  const handleLogin = (email: string) => {
+    setUser({ email });
+    console.log('User logged in:', email);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    console.log('User logged out');
+  };
+
+  if (!user) {
+    return <AuthForm onLogin={handleLogin} />;
+  }
+
+  return <StoreLanding user={user} onLogout={handleLogout} />;
 };
 
 export default Index;
